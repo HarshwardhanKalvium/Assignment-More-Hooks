@@ -26,6 +26,7 @@ const reducer = (state, action) => {
 const TaskList = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [inputValue, setInputValue] = React.useState('');
+    const inputRef = React.useRef(null); // create a ref for the input element
 
     const handleAddTask = (task) => {
         dispatch({ type: "ADD_TASK", payload: task });
@@ -42,6 +43,10 @@ const TaskList = () => {
         }
     };
 
+    const focusInput = () => {
+        inputRef.current.focus(); // focus the input element
+    };
+
     return (
         <div>
             <input
@@ -50,6 +55,7 @@ const TaskList = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
+                ref={inputRef} // attach the ref to the input element
             />
             <ul className="task">
                 {state.tasks.map((task, index) => (
@@ -59,6 +65,7 @@ const TaskList = () => {
                     </li>
                 ))}
             </ul>
+            <button className="focus-btn" onClick={focusInput}>Focus Input</button> {/* button to focus the input element */}
         </div>
     );
 };
